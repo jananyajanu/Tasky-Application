@@ -39,7 +39,7 @@
 //     ]
 // };
 
-const state={
+const state = {
     taskList: [],
 };
 
@@ -55,10 +55,10 @@ const htmlTaskContent=({id, title, description, type, url}) => `
     <div class="col-md-6 col-lg-4 mt-3" id=${id} key=${id}>
         <div class='card shadow-sm task__card'>
             <div class='card-header d-flex justify-content-end task__card__header'>
-                <button type='button' class='btn btn-outline-primary mr-1.5' name=${id} onclick="editTask.apply(this, arguments)">
+                <button type='button' class='btn btn-outline-primary mr-2' name=${id} onclick="editTask.apply(this, arguments)">
                     <i class='fas fa-pencil-alt name=${id}'></i>
                 </button>
-                <button type='button' class='btn btn-outline-danger mr-1.5' name=${id} onclick="deleteTask.apply(this, arguments)">
+                <button type='button' class='btn btn-outline-danger mr-2' name=${id} onclick="deleteTask.apply(this, arguments)">
                     <i class='fas fa-trash-alt name=${id}'></i>
                 </button>
             </div>
@@ -68,7 +68,7 @@ const htmlTaskContent=({id, title, description, type, url}) => `
                     // `<img width='100%' src=${url} alt='card Image' class='card-img-top md-3 rounded-lg'/>`
                     url ?
                     `<img width='100%' src=${url} alt='card Image' class='card-img-top md-3 rounded-lg'/>`
-                    :`<img width='100%' src="https://tse1.mm.bing.net/th?id=OIP.F00dCf4bXxX0J-qEEf4qIQHaD6&pid=Api&rs=1&c=1&qlt=95&w=223&h=117" alt='card Image' class='card-img-top md-3 rounded-lg'/>`
+                    :`<img width='100%' src="https://tse1.mm.bing.net/th?id=OIP.F00dCf4bXxX0J-qEEf4qIQHaD6&pid=Api&rs=1&c=1&qlt=95&w=223&h=117" alt='Card Image' class='card-img-top md-3 rounded-lg'/>`
                 }
                 <h4 class='card-title task_card_title'>${title}</h4>
                 <p class='description trim-3-lines text-muted'>${description}</p>
@@ -113,6 +113,7 @@ const updateLocalStorage = () => {
             tasks: state.taskList,
         })
     );
+
 };
 
 // load Initial Data
@@ -122,13 +123,13 @@ const loadInitialData = () => {
 
     if(localStorageCopy) state.taskList = localStorageCopy.tasks;
 
-    state.taskList.map(cardDate => {
-        taskContents.insertAdjacentHTML("beforeend",htmlTaskContent(cardDate));
+    state.taskList.map((cardDate) => {
+        taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardDate));
     });
 };
 
 //
-const handleSubmit =(event) =>{
+const handleSubmit = (event) => {
     const id = `${Date.now()}`;
     const input = {
         url: document.getElementById("imageUrl").value,
@@ -136,9 +137,9 @@ const handleSubmit =(event) =>{
         type: document.getElementById("tags").value,
         description: document.getElementById("taskDescription").value,
     };
-    if (input.title===""|| input.type==="" || input.description===""){
-        return alert("please fill all the neccessary fields:-)")
-    };
+    if (input.title ===""|| input.type ==="" || input.description===""){
+        return alert("please fill all the neccessary fields:-)");
+    }
     taskContents.insertAdjacentHTML("beforeend",htmlTaskContent({...input,id}));
     state.taskList.push({...input,id});
     updateLocalStorage();
@@ -152,15 +153,19 @@ const openTask = (e) => {
     taskModal.innerHTML = htmlModalContent(getTask);
 };
 
-// delete task deleteTask
+// delete task 
 const deleteTask = (e) => {
     if(!e) e = window.event;
 
-    const targetId= e.target.getAttribute("name");
+    const targetId = e.target.getAttribute("name");
     // console.log(targetId);
     const type=e.target.tagName;
-    const removeTask = state.taskList.filter(({id}) => id!== targetId);
+    state.taskList = state.taskList.filter(({id}) => id !== targetId);
+    // its not updating in local storage 
     // console.log(removeTask);
+    // console.log('Task List:',state.taskList);
+    
+
     updateLocalStorage();
 
     if(type === "BUTTON"){
@@ -173,7 +178,11 @@ const deleteTask = (e) => {
             e.target.parentNode.parentNode.parentNode.parentNode
         );
     }
+    
 };
+
+
+
 
 // edit task
 const editTask = (e) => {
@@ -267,3 +276,4 @@ const searchTask = (e) => {
         taskContents.insertAdjacentHTML("beforeend", htmlTaskContent(cardData))
     );
 };
+
