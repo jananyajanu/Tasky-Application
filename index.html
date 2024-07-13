@@ -98,7 +98,8 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="input-group flex-nowrap shadow-lg">
-                    <input type="search" class="form-control" placeholder="Search your task here.." aria-label="Search Task" aria-describedby="addon-wrapping">
+                    <input type="search" class="form-control" placeholder="Search your task here.." aria-label="Search Task" aria-describedby="addon-wrapping" 
+                    oninput="searchTask.apply(this,arguments)"/>
                     <span class="input-group-text" id="addon-wrapping">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
